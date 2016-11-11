@@ -26,24 +26,43 @@
     // 2.自动滚动到底:
     //   自动向上滚动
 
-    function insertTestData(){
-
-        for(var i =0;i<999;++i){
-            var elm = DC('div');
-            elm.innerHTML=i;
-            fullPage.appendChild(elm);
-            elm.scrollIntoView()
-        }
-
-    }
+    //function insertTestData(){
+    //
+    //    for(var i =0;i<999;++i){
+    //        var elm = DC('div');
+    //        elm.innerHTML=i;
+    //        fullPage.appendChild(elm);
+    //        elm.scrollIntoView()
+    //    }
+    //
+    //}
 
     window.onload=function(){
         document.head.appendChild(styleElm);
         document.body.appendChild(fullPage);
-        insertTestData()
+        //insertTestData();
     }
 
+    // 3.改写console.log :
+    var _fun1=console.log;
+    var oldLog = function(a,b,c){
+        _fun1.apply(null,arguments);
+    }
+    console.log= function(){
+        oldLog.apply(console,arguments);
+        insertLogIntoPage.apply(null,arguments);
+    }
 
+    function insertLogIntoPage(){
+        var _outStr='';
+        for(var i in arguments){
+            _outStr += arguments[i].toString()+" ";
+        }
+        var elm = DC('div');
+        elm.innerHTML=_outStr;
+        fullPage.appendChild(elm);
+        elm.scrollIntoView()
+    }
 
     function DC(type){
         return document.createElement(type);
